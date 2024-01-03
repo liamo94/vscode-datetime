@@ -2,6 +2,9 @@
 
 Easily check what your Date will look like after formatting.
 
+<img width="337" alt="dateformat example" src="https://github.com/liamo94/vscode-datetime/assets/9355016/73192277-0983-48ca-a67b-5e5b116777d6">
+
+
 I have chosen the approach of explicitly adding a comment to see the format due to automatically showing it. This is due to identifying a valid ISO format. There are too many combinations of languages and functions for date formatting, and blindly regex matching would result in a lot of false positives. If anyone wants to attempt this approach, feel free to adapt.
 
 ### Using the extension
