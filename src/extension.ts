@@ -1,28 +1,57 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
+import { getHintsFromQueries } from "./queries";
+import {
+  SupportedLanguage,
+  supportedLanguageComments,
+  supportedLanguages,
+} from "./supportedLanguages";
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
-  // Use the console to output diagnostic information (console.log) and errors (console.error)
-  // This line of code will only be executed once when your extension is activated
-  console.log('Congratulations, your extension "dateformat" is now active!');
+export const activate = (context: vscode.ExtensionContext) => {
+  registerInlayHintsProvider(context);
+  registerCommentProvider(context);
+};
 
-  // The command has been defined in the package.json file
-  // Now provide the implementation of the command with registerCommand
-  // The commandId parameter must match the command field in package.json
-  let disposable = vscode.commands.registerCommand(
-    "dateformat.helloWorld",
-    () => {
-      // The code you place here will be executed every time your command is executed
-      // Display a message box to the user
-      vscode.window.showInformationMessage("Hello World from dateformat!");
-    }
-  );
-
-  context.subscriptions.push(disposable);
-}
-
-// This method is called when your extension is deactivated
 export function deactivate() {}
+
+const registerInlayHintsProvider = (context: vscode.ExtensionContext) => {
+  const provider: vscode.InlayHintsProvider = {
+    provideInlayHints: async (model, iRange, cancel) => {
+      const offset = model.offsetAt(iRange.start);
+      const text = model.getText(iRange);
+      return await getHintsFromQueries({ text, offset, model, cancel });
+    },
+  };
+
+  context.subscriptions.push(
+    vscode.languages.registerInlayHintsProvider(
+      supportedLanguages.map((language) => ({ language })),
+      provider
+    )
+  );
+};
+
+const registerCommentProvider = (context: vscode.ExtensionContext) => {
+  context.subscriptions.push(
+    vscode.commands.registerTextEditorCommand(
+      "dateformat.insert-date",
+      (textEditor: vscode.TextEditor) => {
+        const {
+          document,
+          selection: { end, active },
+        } = textEditor;
+        const eolRange = document.lineAt(end.line).range.end;
+        const { languageId } = document;
+        const [startComment, endComment] =
+          supportedLanguageComments[languageId as SupportedLanguage];
+        const comment = startComment
+          .padEnd(active.character, " ")
+          .concat(`^df ${endComment || ""}`);
+
+        textEditor.edit((editBuilder) => {
+          const eolChar = document.eol === vscode.EndOfLine.LF ? "\n" : "\r\n";
+          editBuilder.insert(eolRange, eolChar + comment);
+        });
+      }
+    )
+  );
+};

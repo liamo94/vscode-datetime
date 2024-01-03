@@ -1,0 +1,62 @@
+export const supportedLanguages = [
+  "c",
+  "cpp",
+  "csharp",
+  "go",
+  "html",
+  "java",
+  "javascript",
+  "javascriptreact",
+  "json",
+  "latex",
+  "markdown",
+  "objective-c",
+  "objective-cpp",
+  "perl",
+  "php",
+  "plaintext",
+  "python",
+  "r",
+  "ruby",
+  "rust",
+  "swift",
+  "typescript",
+  "typescriptreact",
+  "xml",
+  "yaml",
+] as const;
+
+export type SupportedLanguage = (typeof supportedLanguages)[number];
+
+export const supportedLanguageComments: Record<
+  SupportedLanguage,
+  NonEmptyArray<string>
+> = {
+  c: ["//"],
+  cpp: ["//"],
+  csharp: ["//"],
+  go: ["//"],
+  html: ["<!--", "-->"],
+  java: ["//"],
+  javascript: ["//"],
+  javascriptreact: ["//"],
+  json: ["//"],
+  latex: ["%"],
+  markdown: ["<!--", "-->"],
+  "objective-c": ["//"],
+  "objective-cpp": ["//"],
+  php: ["//"],
+  plaintext: ["//"],
+  perl: ["#"],
+  python: ["#"],
+  r: ["#"],
+  ruby: ["#"],
+  rust: ["//"],
+  swift: ["//"],
+  typescript: ["//"],
+  typescriptreact: ["//"],
+  xml: ["<!--", "-->"],
+  yaml: ["#"],
+};
+
+type NonEmptyArray<T> = [T, ...T[]];

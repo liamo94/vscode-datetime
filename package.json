@@ -1,7 +1,15 @@
 {
   "name": "dateformat",
-  "displayName": "dateformat",
+  "displayName": "DateFormat",
   "description": "Easily see format tokens for DateTime",
+  "author": "Liam O'Donnell",
+  "icon": "logo.png",
+  "private": false,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liamo94/vscode-datetime.git"
+  },
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.85.0"
@@ -14,10 +22,26 @@
   "contributes": {
     "commands": [
       {
-        "command": "dateformat.helloWorld",
-        "title": "Hello World"
+        "command": "dateformat.insert-date",
+        "title": "Dateformat: Show format below"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "DateFormat",
+      "properties": {
+        "dateformat.defaultDate": {
+          "type": "string",
+          "description": "ISO 8601. Defaults to now"
+        }
+      }
+    },
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "dateformat.insert-date"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -28,14 +52,18 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.85.0",
+    "@types/luxon": "^3.3.7",
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
+    "@types/vscode": "^1.85.0",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
-    "eslint": "^8.56.0",
-    "typescript": "^5.3.3",
     "@vscode/test-cli": "^0.0.4",
-    "@vscode/test-electron": "^2.3.8"
+    "@vscode/test-electron": "^2.3.8",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "luxon": "^3.4.4"
   }
 }
