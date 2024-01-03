@@ -3,6 +3,7 @@
   "displayName": "DateFormat",
   "description": "Easily see format tokens for DateTime",
   "author": "Liam O'Donnell",
+  "publisher": "liamoco",
   "icon": "logo.png",
   "private": false,
   "license": "MIT",
