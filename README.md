@@ -8,7 +8,7 @@ I have chosen the approach of explicitly adding a comment to see the format due 
 
 ### Using the extension
 
-Add `[comment] ^dt` (datetime) under any string (surrounded by quotes) to see the date in the chosen format. Use the command `dateformat: insert-date` to do this automatically at your cursor. Easily edit this on the fly and watch it update in real time.
+Add `[comment] ^df` (dateformat) under any string (surrounded by quotes) to see the date in the chosen format. Use the command `dateformat: insert-date` to do this automatically at your cursor. Easily edit this on the fly and watch it update in real time.
 
 By default it will use `Date.now()`, but you can override this in setting by passing in an ISO 8601 of your choice.
 
