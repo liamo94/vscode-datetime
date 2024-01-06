@@ -24,7 +24,7 @@ const checkForCommentQuery = async ({
   offset,
   model,
   cancel,
-}: Query): InlayHintsPromise => {
+}: Query): Promise<vscode.InlayHint[]> => {
   const results: vscode.InlayHint[] = [];
   const { languageId } = vscode.window.activeTextEditor?.document || {};
   const matches = text.matchAll(getRegex(languageId as SupportedLanguage));
@@ -52,11 +52,4 @@ const checkForCommentQuery = async ({
 
 export const getHintsFromQueries = async (
   queryInfo: Query
-): InlayHintsPromise => {
-  const results: vscode.InlayHint[] = [];
-
-  const queryResults = await checkForCommentQuery(queryInfo);
-  results.push(...queryResults);
-
-  return results;
-};
+): InlayHintsPromise => checkForCommentQuery(queryInfo);

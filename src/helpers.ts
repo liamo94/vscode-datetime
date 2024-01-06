@@ -1,14 +1,11 @@
 import * as vscode from "vscode";
 import { getDateFormat } from "./dateFormat";
 
-type InlayHintInfo = {
-  position: vscode.Position;
-  lineLength?: number;
-};
-
 export const createInlayHint = ({
   position,
-}: InlayHintInfo): vscode.InlayHint | undefined => {
+}: {
+  position: vscode.Position;
+}): vscode.InlayHint | undefined => {
   const { line, character } = position;
   const lineText = vscode.window.activeTextEditor?.document.lineAt(
     line - 1

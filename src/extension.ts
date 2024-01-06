@@ -43,13 +43,18 @@ const registerCommentProvider = (context: vscode.ExtensionContext) => {
         const { languageId } = document;
         const [startComment, endComment] =
           supportedLanguageComments[languageId as SupportedLanguage];
+        const whiteSpaceAtStart =
+          document.lineAt(eolRange).firstNonWhitespaceCharacterIndex;
         const comment = startComment
-          .padEnd(active.character, " ")
-          .concat(`^df ${endComment || ""}`);
+          .padEnd(active.character - whiteSpaceAtStart, " ")
+          .concat(`^df${endComment || ""}`);
 
         textEditor.edit((editBuilder) => {
           const eolChar = document.eol === vscode.EndOfLine.LF ? "\n" : "\r\n";
-          editBuilder.insert(eolRange, eolChar + comment);
+          editBuilder.insert(
+            eolRange,
+            eolChar + " ".repeat(whiteSpaceAtStart) + comment
+          );
         });
       }
     )
